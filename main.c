@@ -50,7 +50,7 @@ void main(void) {
         while (PORTFbits.RF2 || PORTFbits.RF3); //empty while loop (wait for button press)
       
         // PORT == 0, when both (AND condition) buttons are pressed, power cut off , voltage = low, toggle both LED 1 and 2
-        if (!PORTFbits.RF2 && !PORTFbits.RF2){
+        if (!PORTFbits.RF2 && !PORTFbits.RF3){
             LATDbits.LATD7 = !LATDbits.LATD7;//toggle LED 1
             LATHbits.LATH3 = !LATHbits.LATH3;//toggle LED 2
         }
