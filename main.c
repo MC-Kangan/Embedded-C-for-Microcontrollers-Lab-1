@@ -46,11 +46,11 @@ void main(void) {
             LATHbits.LATH3=0;
         }
         
-        // PORT == 1 (by default), when button is not pressed, voltage = high
-        while (PORTFbits.RF2); //empty while loop (wait for button press)
+        // PORT == 1 (by default), when either (OR condition) button is not pressed, voltage = high, trap in the loop
+        while (PORTFbits.RF2 || PORTFbits.RF3); //empty while loop (wait for button press)
       
-        // PORT == 0, when button is pressed, power cut off , voltage = low
-        if (!PORTFbits.RF2){ // When the button is pressed, toggle both LED 1 and 2 
+        // PORT == 0, when both (AND condition) buttons are pressed, power cut off , voltage = low, toggle both LED 1 and 2
+        if (!PORTFbits.RF2 && !PORTFbits.RF2){
             LATDbits.LATD7 = !LATDbits.LATD7;//toggle LED 1
             LATHbits.LATH3 = !LATHbits.LATH3;//toggle LED 2
         }
