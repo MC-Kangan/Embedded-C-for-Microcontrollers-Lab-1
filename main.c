@@ -38,22 +38,19 @@ void main(void) {
     
     
     while (1) { //infinite while loop - repeat forever
-        // Set the condition that needs to be fulfilled no matter the button is pressed or not
-        // Condition: if RD7 is on, RH3 should be off; Vice versa.
-        if (LATDbits.LATD7==0){
-            LATHbits.LATH3=1;
-        }else{
-            LATHbits.LATH3=0;
-        }
-        
-        // PORT == 1 (by default), when either (OR condition) button is not pressed, voltage = high, trap in the loop
-        while (PORTFbits.RF2 || PORTFbits.RF3); //empty while loop (wait for button press)
       
-        // PORT == 0, when both (AND condition) buttons are pressed, power cut off , voltage = low, toggle both LED 1 and 2
-        if (!PORTFbits.RF2 && !PORTFbits.RF3){
+        // PORT == 1 (by default), when both (AND condition) buttons are not pressed, voltage = high, trap in the loop
+        while (PORTFbits.RF2 && PORTFbits.RF3); //empty while loop (wait for button press)
+      
+        // PORT == 0, when button RF2 is pressed, power cut off , voltage = low
+        if (!PORTFbits.RF2){
             LATDbits.LATD7 = !LATDbits.LATD7;//toggle LED 1
-            LATHbits.LATH3 = !LATHbits.LATH3;//toggle LED 2
         }
+        // PORT == 0, when button RF3 is pressed, power cut off , voltage = low
+         if (!PORTFbits.RF3){
+           LATHbits.LATH3 = !LATHbits.LATH3;//toggle LED 2
+        }
+         
         // Time delay between each iteration of the while(1) loop; The difference between long press and short press is 
         __delay_ms(200); // call built in delay function 
     }
